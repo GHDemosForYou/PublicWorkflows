@@ -15,12 +15,11 @@ on:
         type: string
 jobs:
   build:
-
-    run: echo ${{ github.action_repository }}
-    
     name: Build
     runs-on: ubuntu-latest
     steps:
+    
+    - run: echo ${{ github.action_repository }}
     - uses: actions/checkout@v2
 
     - name: Set up dependency caching for faster builds
