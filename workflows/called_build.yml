@@ -1,0 +1,47 @@
+name: Called workflow - Build
+
+on: 
+  workflow_dispatch:
+    inputs:
+      configuration:
+        default: 'Release'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      configuration:
+        default: 'Release'
+        required: true
+        type: string
+jobs:
+  build:
+
+    run: echo ${{ github.action_repository }}
+    
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up dependency caching for faster builds
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore dependencies
+      run: dotnet restore \src
+    
+    - name: Build
+      run: dotnet build --configuration ${{ inputs.configuration }} --no-restore \src
+    
+    - name: dotnet publish
+      run: dotnet publish \src -c Release -o publish
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: .net-app
+        path: publish
