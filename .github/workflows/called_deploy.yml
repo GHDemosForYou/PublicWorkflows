@@ -1,4 +1,4 @@
-name: Called workflow - Deploy ASP.Net Core app to an Azure Web App
+name: Called Deploy
 
 env:
   AZURE_WEBAPP_NAME: AzureWebAppBB     # set this to the name of your Azure Web App
