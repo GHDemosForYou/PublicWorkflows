@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-    - run: echo ${{ github.action_repository }}
     - uses: actions/checkout@v2
 
     - name: Set up dependency caching for faster builds
@@ -44,3 +43,5 @@ jobs:
       with:
         name: .net-app
         path: publish
+
+    - run: echo ${{ github.action_repository }}
